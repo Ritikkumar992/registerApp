@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="15dp"
+        >
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:src="@drawable/login" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Login"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/loginEmailId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/custom_background"
+        android:hint=" @ Email Id"
+        android:padding="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:passwordToggleEnabled="true">
+
+            <EditText
+                android:id="@+id/loginPasswordId"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_background"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:padding="20dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/forgetBtnId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="52dp"
+            android:layout_marginBottom="7sp"
+            android:text="forget?"
+            android:textColor="@color/primaryDark"
+            android:textSize="18sp"
+
+            />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/loginBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/primaryDark"
+        android:padding="18dp"
+        android:text="Login" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="Or login with..." />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:strokeWidth="2"
+        android:strokeColor="#FFFFFF">
+
+        <ImageView
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_margin="20dp"
+            android:src="@drawable/google" />
+
+        <ImageView
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_margin="20dp"
+            android:src="@drawable/fb" />
+
+        <ImageView
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_margin="20dp"
+            android:src="@drawable/apple" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/custom_background"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New to iThickLogistic"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/registerBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:text="Register?"
+            android:textColor="@color/primaryDark"
+            android:textSize="16sp" />
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>

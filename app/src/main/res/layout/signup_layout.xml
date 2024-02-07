@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="15dp"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@color/white"
+            android:src="@drawable/signup"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Sign Up"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_margin="20dp"
+                android:src="@drawable/google" />
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_margin="20dp"
+                android:src="@drawable/fb" />
+
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_margin="20dp"
+                android:src="@drawable/apple" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/userNameId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/custom_background"
+            android:hint="Full Name"
+            android:padding="20dp" />
+
+        <EditText
+            android:id="@+id/signUpEmailId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/custom_background"
+            android:hint=" @ Email Id"
+            android:padding="15dp"
+            android:layout_marginBottom="5dp"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            app:passwordToggleEnabled="true">
+
+            <EditText
+                android:id="@+id/signPasswordId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_background"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:padding="20dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <EditText
+            android:id="@+id/userContactId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/custom_background"
+            android:hint="Contact Number"
+            android:padding="20dp"
+            android:inputType="number"
+            />
+
+
+
+        <AutoCompleteTextView
+            android:id="@+id/companyNameId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/custom_background"
+            android:hint="Company Name"
+            android:padding="20dp"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:text="Select Designation"
+            android:textColor="@color/primaryDark"
+            android:textSize="18dp" />
+
+        <Spinner
+            android:id="@+id/spinnerId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/custom_border"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:text="Select Date of Joining"
+            android:textColor="@color/primaryDark"
+            android:textSize="18dp" />
+
+        <EditText
+            android:id="@+id/datePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/custom_background"
+            android:focusable="false"
+            android:hint="dd/mm/yyyy"
+            android:inputType="none"
+            android:padding="20dp"
+
+            />
+
+        <Button
+            android:id="@+id/signUpBtnId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:padding="18dp"
+            android:text="Sign Up"
+            android:backgroundTint="@color/primaryDark"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/custom_background"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Already a User"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/loginTextId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="Login"
+                android:textColor="@color/primaryDark"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
