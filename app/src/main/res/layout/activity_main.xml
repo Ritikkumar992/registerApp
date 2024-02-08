@@ -13,9 +13,37 @@
         android:id="@+id/textViewWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome "
+        android:text="Welcome  Ritik kumar"
         android:textStyle="bold"
+        android:textSize="25sp"
+        />
+    <TextView
+        android:id="@+id/editTextViewId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Name"
+        android:textColor="@color/primaryDark"
+        android:layout_marginTop="20dp"
         android:textSize="20sp"
+        android:layout_gravity="right"
+        android:layout_marginEnd="40dp"
+        />
+    <EditText
+        android:id="@+id/newNameId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter your new name"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        />
+    <Button
+        android:id="@+id/updateBtnId"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update"
+        android:backgroundTint="@color/primaryDark"
+        android:visibility="gone"
         />
     <Button
         android:id="@+id/logOutBtnId"
@@ -24,5 +52,6 @@
         android:layout_height="wrap_content"
         android:text="Log Out"
         />
+
 
 </LinearLayout>
