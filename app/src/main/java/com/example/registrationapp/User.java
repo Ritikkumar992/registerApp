@@ -4,6 +4,7 @@ import androidx.room.Entity;
 import androidx.room.ColumnInfo;
 import androidx.room.PrimaryKey;
 
+// User Table created.
 @Entity(tableName = "usersTable")
 public class User {
 
