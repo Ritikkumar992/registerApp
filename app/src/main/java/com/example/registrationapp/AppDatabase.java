@@ -6,6 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+ // App database created.
 @Database(entities = {User.class},version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -28,5 +29,6 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract UserDao userDAO();
+   
 
 }
