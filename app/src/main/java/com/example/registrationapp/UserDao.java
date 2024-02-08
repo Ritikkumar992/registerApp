@@ -22,5 +22,7 @@ public interface UserDao {
     @Query("SELECT * FROM usersTable WHERE userEmail = :userEmail")
     User getUserEmail(String userEmail);
 
+    @Query("UPDATE usersTable SET name = :newName WHERE userEmail = :userEmail")
+    void updateUserName(String newName, String userEmail);
 
 }
