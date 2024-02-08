@@ -39,79 +39,52 @@ public class LoginActivity extends AppCompatActivity {
 
         this.initializeView();
 
-        //************************  LOGIN CHECK *************************************************//
+        // *****************************SESSION MANAGER***************************//
+        SessionManager  sessionManager= new SessionManager(getApplicationContext());
+        boolean checkSession = sessionManager.checkSession();
+
+        if(checkSession)
+            goToMainActivity();
+        else {
+            forgetBtn.setOnClickListener(v -> Toast.makeText(getApplicationContext(), "We sent an Email with a link to get back into your account. ", Toast.LENGTH_SHORT).show());
+            loginBtn.setOnClickListener(v -> checkCredentials());
+            registerBtn.setOnClickListener(v -> goToRegisterActivity());
+        }
+    }
+    // Other methods and code...
+    // Method to check the validity of entered email and password
+    private void checkCredentials(){
         AppDatabase database = AppDatabase.getInstance(this.getApplicationContext());
-        // When Login Button button is clicked, check user credentials
+        String email = emailIdView.getText().toString();
+        String password = passwordView.getText().toString();
 
-        loginBtn.setOnClickListener(view ->{
+        User userTable = database.userDAO().getUserByUserEmailAndPassword(email,password);
+        if(userTable!=null) {
+            // If credentials are valid, show a success toast and navigate to the home page of application
+            Toast.makeText(getApplicationContext(), "Login Successfully  ", Toast.LENGTH_SHORT).show();
+            SessionManager  sessionManager= new SessionManager(getApplicationContext());
+            String name = sessionManager.saveName(userTable.getFullName());
+            String contact = sessionManager.saveContact(userTable.getContact());
 
-            String email = emailIdView.getText().toString();
-            String password = passwordView.getText().toString();
+            sessionManager.createSession  (name, email, contact);
 
-            User userTable = database.userDAO().getUserByUserEmailAndPassword(email,password);
-
-
-            if(userTable!=null) {
-                Toast.makeText(getApplicationContext(), "Login Successfully  ", Toast.LENGTH_SHORT).show();
-                // Perform login process (authentication)
-                // On successful login, fetch user details
-                authenticateUser(email, password);
-
-                goToMainActivity();
-            }
-            else{
-                Toast.makeText(getApplicationContext(), "Email Address or password are invalid ! Please Try again. ", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //STEP_02: OnClickListener is added to forget button to send the password recovery link to tha mail.
-        forgetBtn.setOnClickListener(view->{
-            Toast.makeText(LoginActivity.this, "Recovery Link is sent to the registerd Email", Toast.LENGTH_SHORT).show();
-            // Api call to send the recovery link to the mail.
-        });
-
+            goToMainActivity();
+        }
+        else
+        {
+            // If credentials are not valid, show a  toast message
+            Toast.makeText(getApplicationContext(), "Email Address or password are invalid ! Please Try again. ", Toast.LENGTH_SHORT).show();
+        }
+    }
         // STEP_03: Is the user is new then => Register or signup page is opened
-        registerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        public void goToRegisterActivity() {
                 // Intent object is created of this class Context() to SignUpActivity class
+
                 Intent intent = new Intent(LoginActivity.this,SignUpActivity.class);
                 startActivity(intent);
-            }
-        });
-    }
-    private void authenticateUser(final String email, final String password) {
-        // Dummy authentication process
-        // Replace with your actual authentication logic
-        // For demonstration purpose, assume authentication is successful
+        };
 
-        // Once authenticated, fetch user details from Room Database
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // Fetch user details from Room Database
-                User user = database.userDAO().getUserEmail(email);
 
-                if (user != null) {
-
-                    // Save user details in SessionManager
-                    sessionManager.saveName(user.getFullName());
-                    sessionManager.saveEmail(email);
-
-                    // Proceed to next activity
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish(); // Close this activity
-                } else {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(LoginActivity.this, "User details not found", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }
-        }).start();
-    }
     public void goToMainActivity()
     {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
