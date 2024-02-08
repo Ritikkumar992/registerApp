@@ -3,6 +3,7 @@ package com.example.registrationapp;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+// Utility Class.
 public class UtilityClass {
 
     // Email validation function:
