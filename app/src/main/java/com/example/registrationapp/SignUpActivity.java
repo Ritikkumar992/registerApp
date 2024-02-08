@@ -25,6 +25,8 @@ public class SignUpActivity extends AppCompatActivity {
     AutoCompleteTextView companyNameView;
     Spinner designationView;
 
+    SessionManager sessionManager;
+
 
     public void initialize()
     {
@@ -52,86 +54,29 @@ public class SignUpActivity extends AppCompatActivity {
         // calling initializeView method to get the UI element of the app.
         this.initialize();
 
-        // STEP_04: signUp button clicked.
-        signUpBtn.setOnClickListener(view->{
-
-            AppDatabase database = AppDatabase.getInstance(this);
-
-            //fetching the details of user.
-            String userName = userNameView.getText().toString();
-            String userEmailId = signUpEmailView.getText().toString();
-            String userPassword = signUpPasswordView.getText().toString();
-            String contact = userContactView.getText().toString();
-            String companyName = companyNameView.getText().toString();
-            String designation = designationView.toString();
-            String dateOfJoining = datePicker.getText().toString();
-
-
-            //******************************************************//
-            User ifExist = database.userDAO().ifUsernameIsTaken(userEmailId);
 
 
 
-            //  edge_case: Entering a valid email ID.
-                if(userName.trim().equals("")){
-                    Toast.makeText(SignUpActivity.this, "Please Enter Your Name ⚠️", Toast.LENGTH_SHORT).show();
-                    userNameView.setError("Name is Required⚠️");
-                }
-                else if(userEmailId.trim().equals("")){
-                    Toast.makeText(SignUpActivity.this, "Please enter your email Id ⚠️", Toast.LENGTH_SHORT).show();
-                    signUpEmailView.setError("Email is Required⚠️");
-                }
-                else if(!UtilityClass.isValidEmail(userEmailId)){
-                    Toast.makeText(SignUpActivity.this, "Please Enter a valid Email Id ⚠️", Toast.LENGTH_SHORT).show();
-                    signUpEmailView.setError("Valid Email is Required⚠️");
-                }
-                //edge_cas: Entering a valid Password.
-                else if(userPassword.trim().equals("")){
-                    Toast.makeText(SignUpActivity.this, "Please Enter Your Password 🔒", Toast.LENGTH_SHORT).show();
-                    signUpPasswordView.setError("Password is Required 🔒");
-                }
-                else if(!UtilityClass.isValidPassword(userPassword)){
-                    Toast.makeText(SignUpActivity.this, "Please Enter Valid Password", Toast.LENGTH_SHORT).show();
-                    signUpPasswordView.setError("Min 1 UpperCase, 1 LowerCase , 1 Digit, 1 Special Character and Min 8 character required 🔒");
-                }
-                else if(contact.length() != 10 || contact.trim().equals("")){
-                    Toast.makeText(SignUpActivity.this, "Phone Number Should be min of 10 digit", Toast.LENGTH_SHORT).show();
-                    userContactView.setError("Correct Phone Number is Required 📱");
-                }
 
-                // edge_case: Enter the compayName.
-                else if(companyName.trim().equals("")){
-                    Toast.makeText(SignUpActivity.this, "Please select company Name ⚠️", Toast.LENGTH_SHORT).show();
-                    companyNameView.setError("Company name is Required⚠️");
-                }
-                // edge_case : Enter the designation:
-                else if(designation.trim().equals("")){
-                    Toast.makeText(SignUpActivity.this, "Please select your designation⚠️",Toast.LENGTH_SHORT).show();
-                }
-                // edge_case: Enter the dateOfJoining.
-                else if(dateOfJoining.equals("")){
-                    Toast.makeText(SignUpActivity.this, "Please select date of joining ⚠️", Toast.LENGTH_SHORT).show();
-                    datePicker.setError("Joining Date is Required⚠️");
-                }
-                else
-                {
-                    if(ifExist==null){
-                        database.userDAO().insertUser(userName,userEmailId,userPassword, String.valueOf(contact));
-                        finish();
-                        Toast.makeText(this, "User Registered!", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(this, "User Already Exits !", Toast.LENGTH_SHORT).show();
-                    }
-                }
+        //fetching the details of user.
+        String userName = userNameView.getText().toString();
+        String userEmailId = signUpEmailView.getText().toString();
+        String contact = userContactView.getText().toString();
+
+
+
+
+        // When Login  button is clicked, navigate to the login activity
+        loginText.setOnClickListener(v -> {
+            Toast.makeText(SignUpActivity.this, "Move to login page.", Toast.LENGTH_SHORT).show();
+            sessionManager.clearSession();
+            goToLoginActivity();
         });
 
-        //STEP_05: login Button to back to the login page.
-        loginText.setOnClickListener(view ->{
-            // creating intent class:
-            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        });
+        sessionManager= new SessionManager(getApplicationContext());
+        sessionManager.createSession(userEmailId, userName , contact);
+        // When Sign up Button is clicked, check user credentials for registration
+        signUpBtn.setOnClickListener(v -> checkCredentials());
 
 
 
@@ -165,5 +110,90 @@ public class SignUpActivity extends AppCompatActivity {
             );
             datePickerDialog.show();
         });
+    }
+    private void checkCredentials(){
+        String userName = userNameView.getText().toString();
+        String userEmailId = signUpEmailView.getText().toString();
+        String userPassword = signUpPasswordView.getText().toString();
+        String contact = userContactView.getText().toString();
+        String companyName = companyNameView.getText().toString();
+        String designation = designationView.toString();
+        String dateOfJoining = datePicker.getText().toString();
+
+
+        //  edge_case: Entering a valid email ID.
+        if(userName.trim().equals("")){
+            Toast.makeText(SignUpActivity.this, "Please Enter Your Name ⚠️", Toast.LENGTH_SHORT).show();
+            userNameView.setError("Name is Required⚠️");
+        }
+        else if(userEmailId.trim().equals("")){
+            Toast.makeText(SignUpActivity.this, "Please enter your email Id ⚠️", Toast.LENGTH_SHORT).show();
+            signUpEmailView.setError("Email is Required⚠️");
+        }
+        else if(!UtilityClass.isValidEmail(userEmailId)){
+            Toast.makeText(SignUpActivity.this, "Please Enter a valid Email Id ⚠️", Toast.LENGTH_SHORT).show();
+            signUpEmailView.setError("Valid Email is Required⚠️");
+        }
+        //edge_cas: Entering a valid Password.
+        else if(userPassword.trim().equals("")){
+            Toast.makeText(SignUpActivity.this, "Please Enter Your Password 🔒", Toast.LENGTH_SHORT).show();
+            signUpPasswordView.setError("Password is Required 🔒");
+        }
+        else if(!UtilityClass.isValidPassword(userPassword)){
+            Toast.makeText(SignUpActivity.this, "Please Enter Valid Password", Toast.LENGTH_SHORT).show();
+            signUpPasswordView.setError("Min 1 UpperCase, 1 LowerCase , 1 Digit, 1 Special Character and Min 8 character required 🔒");
+        }
+        else if(contact.length() != 10 || contact.trim().equals("")){
+            Toast.makeText(SignUpActivity.this, "Phone Number Should be min of 10 digit", Toast.LENGTH_SHORT).show();
+            userContactView.setError("Correct Phone Number is Required 📱");
+        }
+
+        // edge_case: Enter the compayName.
+        else if(companyName.trim().equals("")){
+            Toast.makeText(SignUpActivity.this, "Please select company Name ⚠️", Toast.LENGTH_SHORT).show();
+            companyNameView.setError("Company name is Required⚠️");
+        }
+        // edge_case : Enter the designation:
+        else if(designation.trim().equals("")){
+            Toast.makeText(SignUpActivity.this, "Please select your designation⚠️",Toast.LENGTH_SHORT).show();
+        }
+        // edge_case: Enter the dateOfJoining.
+        else if(dateOfJoining.equals("")){
+            Toast.makeText(SignUpActivity.this, "Please select date of joining ⚠️", Toast.LENGTH_SHORT).show();
+            datePicker.setError("Joining Date is Required⚠️");
+        }
+        else
+        {
+            AppDatabase database = AppDatabase.getInstance(this);
+            User ifExist = database.userDAO().ifUsernameIsTaken(userEmailId);
+            if(ifExist==null){
+                Toast.makeText(this, "User Registered!", Toast.LENGTH_SHORT).show();
+                database.userDAO().insertUser(userName,userEmailId,userPassword, String.valueOf(contact));
+
+                SessionManager  sessionManager= new SessionManager(getApplicationContext());
+                User userTable = database.userDAO().getUserByUserEmailAndPassword(userEmailId,userPassword);
+
+                String name = sessionManager.saveName(userTable.getFullName());
+                String email = sessionManager.saveEmail(userTable.getUserEmail());
+                String contactNo = sessionManager.saveContact(userTable.getContact());
+
+                sessionManager.createSession   (name, email, contactNo);
+
+                goToMainActivity();
+            }else{
+                Toast.makeText(this, "User Already Exits !", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    public void goToMainActivity()
+    {
+        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+    public void goToLoginActivity()
+    {
+        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
