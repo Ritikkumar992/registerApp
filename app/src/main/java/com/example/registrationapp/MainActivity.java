@@ -1,7 +1,5 @@
 package com.example.registrationapp;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -12,103 +10,85 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    // variable declaration
     private TextView textViewWelcome, editText;
     Button logOutBtn, updateNameBtn;
     private SessionManager sessionManager;
     EditText newNameTxt;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        
+        // UI elements
         textViewWelcome = findViewById(R.id.textViewWelcome);
         logOutBtn = findViewById(R.id.logOutBtnId);
         editText = findViewById(R.id.editTextViewId);
         newNameTxt = findViewById(R.id.newNameId);
         updateNameBtn = findViewById(R.id.updateBtnId);
 
+        // session is created.
         sessionManager = new SessionManager(getApplicationContext());
 
 
         // Check if user session exists
-        String name = sessionManager.getSessionDetails("key_session_name");
-        String email = sessionManager.getSessionDetails("key_session_email");
-        String number = sessionManager.getSessionDetails("key_session_contact");
+        String user_name = sessionManager.getSessionDetails("key_session_name");
+        String user_email = sessionManager.getSessionDetails("key_session_email");
+        String user_number = sessionManager.getSessionDetails("key_session_contact");
 
-        if (name != null) {
-            // User is logged in, welcome the user
+        if (user_name != null) {
             textViewWelcome.setText("Welcome, " + name);
         } else {
-            // User is not logged in, redirect to login activity or perform other actions
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
-            finish(); // close this activity so user cannot go back
+            finish();
             return;
         }
-
         editText.setOnClickListener(view ->{
              newNameTxt.setVisibility(View.VISIBLE);
              updateNameBtn.setVisibility(View.VISIBLE);
-//            showUpdatedName();
-
-
+            //showUpdatedName();
         });
-
         updateNameBtn.setOnClickListener(view -> {
-            updateUserName(newNameTxt.getText().toString());
+            modifyUserName(newNameTxt.getText().toString());
             newNameTxt.setVisibility(View.INVISIBLE);
             updateNameBtn.setVisibility(View.INVISIBLE);
         });
-
-
-        // Logout button click listener
+        // Logout button is clicked.
         logOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Clear session
-                sessionManager.clearSession();
+                sessionManager.clearSession(); // session is cleared.
                 Toast.makeText(MainActivity.this, "Log Out Successful", Toast.LENGTH_SHORT).show();
-                // Redirect to login activity
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                finish(); // close this activity so user cannot go back
+                finish(); // activity closed.
             }
         });
     }
-
-    private void updateUserName(final String newName) {
+    private void modifyUserName(final String newName) {
         // Get the user's email from the session
         final String userEmail = sessionManager.getSessionDetails("key_session_email");
-        AppDatabase database = AppDatabase.getInstance(this);
+        UserDatabase database = UserDatabase.getInstance(this);
 
         // Check if the user's email is available
         if (userEmail != null) {
-            // Execute the update query in a background thread
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    // Update the user's name in the database
-//
-//                    sessionManager.updateNameSession(newName);
+                    //sessionManager.updateNameSession(newName);
                     database.userDAO().updateUserName(newName , userEmail);
-
-                    // Update the displayed name in the UI
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            // Update the welcome message with the new name
                             textViewWelcome.setText("Welcome, " + newName);
-
-                            // Show a message indicating successful update
                             Toast.makeText(MainActivity.this, "Name updated successfully", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             }).start();
-        } else {
-            // Handle case where user email is not available (should not occur in a logged-in state)
-            Toast.makeText(MainActivity.this, "Error: User email not found", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(MainActivity.this, "Error: Email Id not found ⚠️", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 }
