@@ -1,5 +1,4 @@
 package com.example.registrationapp;
-
 import androidx.room.Entity;
 import androidx.room.ColumnInfo;
 import androidx.room.PrimaryKey;
@@ -8,21 +7,23 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "usersTable")
 public class User {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = true) // primary key
     private int id;
 
-    @ColumnInfo(name = "name")
-    private String fullName;
+    @ColumnInfo(name = "name") // name column
+    private String fullName; 
 
-    @ColumnInfo(name = "userEmail") // userEmail id:
+    @ColumnInfo(name = "userEmail") // email column
     private String userEmail;
 
-    @ColumnInfo(name = "password")
+    @ColumnInfo(name = "password") // password column
     private String password;
 
-    @ColumnInfo(name = "contact")
+    @ColumnInfo(name = "contact") // contact column
     private String contact;
 
+    // getters and setters
+    
     public User() {
     }
 
