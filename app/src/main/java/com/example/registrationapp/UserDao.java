@@ -1,5 +1,4 @@
 package com.example.registrationapp;
-
 import androidx.room.Dao;
 import androidx.room.Query;
 
