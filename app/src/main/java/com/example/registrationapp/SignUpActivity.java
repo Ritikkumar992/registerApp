@@ -1,5 +1,4 @@
 package com.example.registrationapp;
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +10,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Calendar;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -24,10 +21,9 @@ public class SignUpActivity extends AppCompatActivity {
     TextView loginText;
     AutoCompleteTextView companyNameView;
     Spinner designationView;
-
     SessionManager sessionManager;
 
-
+    
     public void initialize()
     {
         userNameView = findViewById(R.id.userNameId);
@@ -45,7 +41,6 @@ public class SignUpActivity extends AppCompatActivity {
             " ","Android Developer","FullStack Developer","Devops Engineer","Tech Lead","Product Manger","React Developer"
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,39 +49,37 @@ public class SignUpActivity extends AppCompatActivity {
         // calling initializeView method to get the UI element of the app.
         this.initialize();
 
-
-
-
-
         //fetching the details of user.
         String userName = userNameView.getText().toString();
         String userEmailId = signUpEmailView.getText().toString();
         String contact = userContactView.getText().toString();
 
-
-
-
         // When Login  button is clicked, navigate to the login activity
-        loginText.setOnClickListener(v -> {
+        loginText.setOnClickListener(view -> {
             Toast.makeText(SignUpActivity.this, "Move to login page.", Toast.LENGTH_SHORT).show();
-            sessionManager.clearSession();
-            goToLoginActivity();
+            sessionManager.clearSession(); // session cleared.
+
+            // move to the login page.
+            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         });
 
         sessionManager= new SessionManager(getApplicationContext());
         sessionManager.createSession(userEmailId, userName , contact);
-        // When Sign up Button is clicked, check user credentials for registration
-        signUpBtn.setOnClickListener(v -> checkCredentials());
-
-
-
+        
+        // When Sign up Button is clicked, check user data for registration
+        signUpBtn.setOnClickListener(view -> 
+            isValidData();
+        );
+        
         //Feature_01: Spinner is implemented as a Drop Down to fetch the data.
         // adapter use spinner to populate data.
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,DesignationData);
         designationView.setAdapter(arrayAdapter);
 
         //Feature_02: AutoComplete Text feature in company Name text field:
-        String[] companyArr ={
+        String[] companyArr = {
                 "Promact Infotech","Amazon","Google","Facebook","Netflix","TowerResearch","Twitter","Adobe","Apple"
         };
         ArrayAdapter<String> companyAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,companyArr);
@@ -111,7 +104,7 @@ public class SignUpActivity extends AppCompatActivity {
             datePickerDialog.show();
         });
     }
-    private void checkCredentials(){
+    private void isValidData(){
         String userName = userNameView.getText().toString();
         String userEmailId = signUpEmailView.getText().toString();
         String userPassword = signUpPasswordView.getText().toString();
@@ -164,8 +157,9 @@ public class SignUpActivity extends AppCompatActivity {
         }
         else
         {
-            AppDatabase database = AppDatabase.getInstance(this);
+            UserDatabase database = UserDatabase.getInstance(this);
             User ifExist = database.userDAO().ifUsernameIsTaken(userEmailId);
+            
             if(ifExist==null){
                 Toast.makeText(this, "User Registered!", Toast.LENGTH_SHORT).show();
                 database.userDAO().insertUser(userName,userEmailId,userPassword, String.valueOf(contact));
@@ -177,23 +171,14 @@ public class SignUpActivity extends AppCompatActivity {
                 String email = sessionManager.saveEmail(userTable.getUserEmail());
                 String contactNo = sessionManager.saveContact(userTable.getContact());
 
-                sessionManager.createSession   (name, email, contactNo);
+                sessionManager.createSession(name, email, contactNo);
 
-                goToMainActivity();
+                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                startActivity(intent);
+                
             }else{
                 Toast.makeText(this, "User Already Exits !", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-    public void goToMainActivity()
-    {
-        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-        startActivity(intent);
-    }
-    public void goToLoginActivity()
-    {
-        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
     }
 }
